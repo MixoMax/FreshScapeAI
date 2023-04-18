@@ -32,8 +32,10 @@ if operating_system == "nt":
     startup_path = f'"C:/Users/{username}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup"'
 
     
-    if os.path.exists(startup_path + "/Wallpaper-Changer-py.py"):
-        print("file exists")
+    bat_path = os.path.abspath("Wallpaper-Changer.bat")
+    
+    if os.path.exists(startup_path + "/Wallpaper-Changer.bat"):
+        print("bat file exists")
     else:
-        os.system("copy C:\\Python39\\Scripts\\Wallpaper-Changer-py.py " + startup_path)
-        print("copied file")
+        os.system(f"copy Wallpaper-Changer.bat {startup_path}")
+        print("copied bat file")

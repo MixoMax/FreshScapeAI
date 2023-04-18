@@ -1,0 +1,1 @@
+python C:/Python39/Scripts/wallpaper-changer-py.py

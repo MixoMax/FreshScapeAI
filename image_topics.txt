@@ -7,7 +7,6 @@ River
 Sky
 Beach
 Waterfall
-Butterfly
 Star
 Snowflake
 Bird
@@ -16,18 +15,7 @@ Wave
 Cloud
 Sunflower
 Rock
-Rainbow
-Butterfly
-Candle
-Coffee
-Book
-Castle
-Rain
 Moon
 Bridge
 Lighthouse
-Sailboat
-Train
-Bicycle
-Car
 Mountain Range

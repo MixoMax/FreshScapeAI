@@ -8,6 +8,14 @@ Most recent Prototype is just a Proof of Concept and will only work in Windows.
 
 Currently, the script only works with Unsplash Images, as the Stable Diffusion Model is not yet properly integrated as i couldn't find a free API that can be used to generate images above 512x512px. It will technicall work, but the images will be very low quality.
 
+## TODO:
+
+- Add more models
+- find free API for Stable Diffusion with specific image size
+- implement OpenAI models
+- add a gui to select models, settings and image subjects
+
+
 ## Requirements
 
 - Python 3.6

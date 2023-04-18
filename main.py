@@ -74,7 +74,7 @@ def choose_image_subject(source, verbose=False):
     match source:
         case "simple": return subject
         case "Open-Assistant": headers = {"Authorization": "Bearer " + hugging_face_api_token}; parameters = {"max_new_tokens": -1, "return_full_text": False}; return f"A picture of {subject}, " + requests.post("https://api-inference.huggingface.co/models/OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5", headers=headers, json={"inputs": prompts["Open-Assistant"]}, params=parameters).json()[0]["generated_text"].replace(prompts["Open-Assistant"], "")
-        case "gpt-2-sdpg": headers = {"Authorization": "Bearer " + hugging_face_api_token}; parameters = {"max_new_tokens": -1, "return_full_text": False}; return f"A picture of {subject}, " + requests.post("https://api-inference.huggingface.co/models/Ar4ikov/gpt2-650k-stable-diffusion-prompt-generator", headers=headers, json={"inputs": subject}, params=parameters).json()[0]["generated_text"]
+        case "gpt-2-sdpg": headers = {"Authorization": "Bearer " + hugging_face_api_token}; parameters = {"return_full_text": True}; return f"A picture of {subject}, " + requests.post("https://api-inference.huggingface.co/models/Ar4ikov/gpt2-650k-stable-diffusion-prompt-generator", headers=headers, json={"inputs": subject}, params=parameters).json()[0]["generated_text"]
 
 
 def add_image_subject(subject):
@@ -108,12 +108,14 @@ def main():
     prompt_sources = ["simple", "Open-Assistant", "gpt-2-sdpg"]
     image_sources = ["unsplash", "SD-1.4", "SD-1.5", "SD-2", "SD-2.1"]
     
-    promt_source = prompt_sources[1]
-    image_source = image_sources[0]
+    promt_source = prompt_sources[2]
+    image_source = image_sources[1]
     
     print("calling " + promt_source + "...")
     
     prompt = choose_image_subject(promt_source, verbose=False)
+    
+    
 
     print("calling " + image_source + "...")
     
@@ -122,6 +124,8 @@ def main():
     img.save("background.bmp")
     
     set_wallpaper("background.bmp")
+    
+    print("image prompt: " + prompt)
     
     save_to_fav = input("Save to favorites? (y/n): ")
     

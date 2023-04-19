@@ -18,7 +18,7 @@ Currently, the script only works with Unsplash Images, as the Stable Diffusion M
 
 ## Requirements
 
-- Python 3.6
+- Python 3.11
 - requests (pip install requests)
 - Pillow (pip install Pillow)
 - Internet Connection

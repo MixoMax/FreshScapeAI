@@ -42,7 +42,8 @@ def get_image(source, query):
         "1.4": "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4",
         "1.5": "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5",
         "2": "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2",
-        "2.1": "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1"
+        "2.1": "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1",
+        "oj-v4": "https://api-inference.huggingface.co/models/prompthero/openjourney-v4"
     } # SDversion: URL
     
     def _get_image_from_Stable_Diffusion(version):
@@ -54,6 +55,7 @@ def get_image(source, query):
         case "SD-1.5": return _get_image_from_Stable_Diffusion("1.5")
         case "SD-2": return _get_image_from_Stable_Diffusion("2")
         case "SD-2.1": return _get_image_from_Stable_Diffusion("2.1")
+        case "oj-v4": return _get_image_from_Stable_Diffusion("oj-v4")
     
     def get_image_from_google_maps(query):
         pass
@@ -74,7 +76,7 @@ def choose_image_subject(source, verbose=False):
     match source:
         case "simple": return subject
         case "Open-Assistant": headers = {"Authorization": "Bearer " + hugging_face_api_token}; parameters = {"max_new_tokens": -1, "return_full_text": False}; return f"A picture of {subject}, " + requests.post("https://api-inference.huggingface.co/models/OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5", headers=headers, json={"inputs": prompts["Open-Assistant"]}, params=parameters).json()[0]["generated_text"].replace(prompts["Open-Assistant"], "")
-        case "gpt-2-sdpg": headers = {"Authorization": "Bearer " + hugging_face_api_token}; parameters = {"return_full_text": True}; return f"A picture of {subject}, " + requests.post("https://api-inference.huggingface.co/models/Ar4ikov/gpt2-650k-stable-diffusion-prompt-generator", headers=headers, json={"inputs": subject}, params=parameters).json()[0]["generated_text"]
+        case "gpt-2-sdpg": headers = {"Authorization": "Bearer " + hugging_face_api_token}; parameters = {"return_full_text": True}; return f"A picture of {subject}, " + requests.post("https://api-inference.huggingface.co/models/Ar4ikov/gpt2-650k-stable-diffusion-prompt-generator", headers=headers, json={"inputs": subject}, params=parameters).json()[0]
 
 
 def add_image_subject(subject):
@@ -102,14 +104,14 @@ def set_wallpaper(image_path):
 
 
 def main():
-    load_openAI_api_token()
+    #load_openAI_api_token()
     load_image_topics()
     
     prompt_sources = ["simple", "Open-Assistant", "gpt-2-sdpg"]
-    image_sources = ["unsplash", "SD-1.4", "SD-1.5", "SD-2", "SD-2.1"]
+    image_sources = ["unsplash", "SD-1.4", "SD-1.5", "SD-2", "SD-2.1", "oj-v4"]
     
-    promt_source = prompt_sources[2]
-    image_source = image_sources[1]
+    promt_source = prompt_sources[1]
+    image_source = image_sources[5]
     
     print("calling " + promt_source + "...")
     
@@ -123,13 +125,16 @@ def main():
     
     img.save("background.bmp")
     
-    set_wallpaper("background.bmp")
+    img.show()
     
     print("image prompt: " + prompt)
     
-    save_to_fav = input("Save to favorites? (y/n): ")
+    #save_to_fav = input("Save to favorites? (y/n): ")
+    save_to_fav = "n"
     
     if save_to_fav == "y":
+        if os.path.exists("./favorites") == False:
+            os.mkdir("./favorites")
         i = 0
         while True:
             img_name = prompt.replace(" ", "_").replace(",", "") + "_" + str(i) + ".bmp"
